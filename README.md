@@ -290,9 +290,6 @@ On every push to `main` that touches `libs/jovepay-webpay/**`, GitHub Actions:
 3. Publishes the contents of `libs/jovepay-webpay/dist/` to the
    **`livialink/jovepay-pay`** repository (`main` branch)
 
-Workflow: `.github/workflows/publish-jovepay-webpay.yml`  
-Secret: `LIVIALINK_API_TOKEN_GITHUB` (same token used for CMS plugin sync)
-
 After publish, the public script URL is:
 
 ```text
@@ -304,12 +301,6 @@ Pin a commit for production if you need immutable caching:
 ```text
 https://cdn.jsdelivr.net/gh/livialink/jovepay-pay@<commit-sha>/index.min.js
 ```
-
-### One-time setup
-
-1. Create an empty GitHub repo: `livialink/jovepay-pay`
-2. Ensure `LIVIALINK_API_TOKEN_GITHUB` can push to that repo
-3. Merge a change under `libs/jovepay-webpay/` to `main` (or run the workflow manually)
 
 ---
 
