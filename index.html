@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JOVEpay Checkout — demo</title>
+    <!-- Local build. In production use the CDN URL from README.md -->
+    <script src="./index.min.js"></script>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #f4f6fb;
+        color: #0f172a;
+      }
+      main {
+        width: min(420px, calc(100vw - 2rem));
+        padding: 1.5rem;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      }
+      h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.25rem;
+      }
+      p {
+        margin: 0 0 1.25rem;
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+      button {
+        width: 100%;
+        height: 44px;
+        border: 0;
+        border-radius: 10px;
+        background: #1d4ed8;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #1e40af;
+      }
+      button.secondary {
+        margin-top: 0.75rem;
+        background: #0f172a;
+      }
+      #log {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border-radius: 10px;
+        background: #0f172a;
+        color: #e2e8f0;
+        font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+        white-space: pre-wrap;
+        min-height: 4.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>JOVEpay Checkout</h1>
+      <p>
+        Vanilla HTML demo. Edit the config below the buttons to point at your
+        invoice or CMS order, then click Pay.
+      </p>
+      <button id="pay-invoice" type="button">Pay invoice</button>
+      <button id="pay-cms" type="button" class="secondary">
+        Pay CMS order
+      </button>
+      <pre id="log">Ready.</pre>
+    </main>
+
+    <script>
+      function log(message, data) {
+        const el = document.getElementById('log');
+        const line =
+          typeof data === 'undefined'
+            ? String(message)
+            : message + '\n' + JSON.stringify(data, null, 2);
+        el.textContent = line;
+        console.log(message, data);
+      }
+
+      // Shared callbacks for both demos
+      const callbacks = {
+        onReady: function () {
+          log('Widget ready');
+        },
+        onInit: function (payload) {
+          log('PAYMENT_INIT', payload);
+        },
+        onSuccess: function (payload) {
+          log('PAYMENT_SUCCESS', payload);
+        },
+        onError: function (payload) {
+          log('PAYMENT_FAILED', payload);
+        },
+        onClose: function (reason, payload) {
+          log('Closed: ' + reason, payload);
+        },
+      };
+
+      document.getElementById('pay-invoice').addEventListener('click', function () {
+        // Replace invoiceId with a real invoice from your JOVEpay dashboard.
+        var checkout = new JovePayCheckout({
+          mode: 'payment',
+          invoiceId: '1598462043',
+          theme: 'light',
+          locale: 'en',
+          env: 'production',
+          // env: 'development', // → http://localhost:3000
+          // baseUrl: 'http://localhost:3000',
+          onReady: callbacks.onReady,
+          onInit: callbacks.onInit,
+          onSuccess: callbacks.onSuccess,
+          onError: callbacks.onError,
+          onClose: callbacks.onClose,
+        });
+        checkout.open();
+      });
+
+      document.getElementById('pay-cms').addEventListener('click', function () {
+        // CMS-style checkout (same fields as WooCommerce / portal builders).
+        // successUrl / cancelUrl are optional. ipnCallbackUrl is not allowed.
+        var checkout = JovePayCheckout.create({
+          mode: 'payment',
+          apiKey: 'YOUR_API_KEY',
+          orderId: String(Date.now()),
+          priceAmount: '1.00',
+          priceCurrency: 'USD',
+          successUrl: window.location.href,
+          cancelUrl: window.location.href,
+          customerName: 'Demo Customer',
+          customerEmail: 'demo@example.com',
+          dataSource: 'vanilla-html-demo',
+          theme: 'light',
+          locale: 'en',
+          env: 'production',
+          onReady: callbacks.onReady,
+          onInit: callbacks.onInit,
+          onSuccess: callbacks.onSuccess,
+          onError: callbacks.onError,
+          onClose: callbacks.onClose,
+        });
+        checkout.open();
+      });
+    </script>
+  </body>
+</html>

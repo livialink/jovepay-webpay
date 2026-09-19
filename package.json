@@ -1,0 +1,10 @@
+{
+  "name": "jovepay-pay",
+  "version": "0.1.0",
+  "description": "JOVEpay in-page checkout SDK (browser bundle)",
+  "main": "index.min.js",
+  "unpkg": "index.min.js",
+  "jsdelivr": "index.min.js",
+  "license": "UNLICENSED",
+  "private": true
+}
