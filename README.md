@@ -18,7 +18,7 @@ This package ships two consumption styles:
 ### 1. Add the script
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/livialink/jovepay-pay@main/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/livialink/jovepay-webpay@main/index.min.js"></script>
 ```
 
 Local / self-hosted:
@@ -34,7 +34,7 @@ After the script loads, `window.JovePayCheckout` is available.
 ```html
 <button id="pay">Pay now</button>
 
-<script src="https://cdn.jsdelivr.net/gh/livialink/jovepay-pay@main/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/livialink/jovepay-webpay@main/index.min.js"></script>
 <script>
   const button = document.getElementById('pay');
 
@@ -293,13 +293,13 @@ On every push to `main` that touches `libs/jovepay-webpay/**`, GitHub Actions:
 After publish, the public script URL is:
 
 ```text
-https://cdn.jsdelivr.net/gh/livialink/jovepay-pay@main/index.min.js
+https://cdn.jsdelivr.net/gh/livialink/jovepay-webpay@main/index.min.js
 ```
 
 Pin a commit for production if you need immutable caching:
 
 ```text
-https://cdn.jsdelivr.net/gh/livialink/jovepay-pay@<commit-sha>/index.min.js
+https://cdn.jsdelivr.net/gh/livialink/jovepay-webpay@main/index.min.js
 ```
 
 ---
